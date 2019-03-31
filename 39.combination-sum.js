@@ -61,20 +61,14 @@ var combinationSum = function(candidates, target) {
   }
   let results = []
   let path = []
-  let resultMap = new Map()
   candidates = candidates.sort((a, b) => a - b)
-  combinationCore(candidates, target, 0, path, results, resultMap)
+  combinationCore(candidates, target, 0, path, results)
   return results
 };
 
 function combinationCore (candidates, target, from, path, results, resultMap) {
   if (target === 0) {
-    let tempPath = path.slice().sort((a, b) => a - b)
-    if (!resultMap.get(tempPath.toString())) {
-      resultMap.set(tempPath.toString(), true)
-      return results.push(path.slice())
-    }
-    return
+    return results.push(path.slice())
   }
   for (let i = from; i < candidates.length; i++) {
     if (candidates[i] > target) {
@@ -83,10 +77,10 @@ function combinationCore (candidates, target, from, path, results, resultMap) {
     target = target - candidates[i]
     if (target >= 0) {
       path.push(candidates[i])
-      combinationCore(candidates, target, from, path, results, resultMap)
+      combinationCore(candidates, target, i, path, results, resultMap)
       path.pop()
     }
     target += candidates[i]
   }
 }
-console.log(combinationSum([3,12,9,11,6,7,8,5,4], 15))
+// console.log(combinationSum([2,3,6,7], 7))
