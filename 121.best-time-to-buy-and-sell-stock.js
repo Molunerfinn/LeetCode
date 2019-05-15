@@ -47,16 +47,16 @@ var maxProfit = function(prices) {
   if (prices.length <= 1) {
     return 0
   }
-  let min = prices[0]
-  let max = 0
+  let buy = -prices[0]
+  let sell = 0 // 第一天卖不出，收益为0
   let length = prices.length
   for (let i = 1; i < length; i++) {
-    if (prices[i] < min) {
-      min = prices[i]
-    }
-    if ((prices[i] - min) > max) {
-      max = prices[i] - min
-    }
+    // 第i天买入的话的最大收益
+    let preBuy = buy
+    let preSell = sell
+    buy = Math.max(preBuy, -prices[i])
+    // 第i天卖出的话的最大收益
+    sell = Math.max(preSell, preBuy + prices[i])
   }
-  return max
+  return sell
 };

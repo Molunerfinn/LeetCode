@@ -7,8 +7,8 @@ var maxProfit = function(prices) {
     return 0
   }
   let buy = -prices[0] // 第一天买的话收益为-prices[0]
-  let sell = Number.MIN_SAFE_INTEGER // 一开始无法卖出。
-  let holdCooldown = Number.MIN_SAFE_INTEGER // 一开始没有持仓收益。【持仓等待】
+  let sell = 0 // 一开始无法卖出。
+  let holdCooldown = -prices[0] // 一开始持仓收益-prices[0]。【持仓等待】
   let unholdCooldown = 0 // 空仓收益为0 【空仓等待】
   
   let length = prices.length
@@ -25,7 +25,7 @@ var maxProfit = function(prices) {
     holdCooldown = Math.max(preBuy, preHoldCooldown)
     // 昨天卖了或者之前空仓
     unholdCooldown = Math.max(preSell, preUnholdCooldown)
-    // console.log(i, 'buy',buy, 'sell', sell, 'hc', holdCooldown, 'unhc', unholdCooldown) 
+    // console.log(i, 'buy',buy, 'sell', sell, '持仓', holdCooldown, '空仓', unholdCooldown) 
   }
   return Math.max(sell, unholdCooldown) // 只有卖了或者空仓等待的情况下，才会有最高收益
 };

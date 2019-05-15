@@ -61,24 +61,16 @@ var maxProfit = function(prices) {
   if (prices.length <= 1) {
     return 0
   }
-  let min = prices[0]
-  let max = 0
+  let buy = -prices[0]
+  let sell = 0 // 第一天卖不出，收益为0
   let length = prices.length
   for (let i = 1; i < length; i++) {
-    if (prices[i] < min) {
-      min = prices[i]
-    }
-    if (prices[i + 1] < prices[i]) {
-      if (prices[i] > min) {
-        max += (prices[i] - min)
-        min = prices[i + 1]
-      }
-    }
-    if (i === length - 1) {
-      if (prices[i] > min) {
-        max += (prices[i] - min)
-      }
-    }
+    let preBuy = buy
+    let preSell = sell
+    // 可以之前卖出后再买，或者之前没有卖出，一直处于买入的状态
+    buy = Math.max(preBuy, preSell - prices[i])
+    // 可以之前卖出后一直等待或者之前买入后再卖出
+    sell = Math.max(preSell, preBuy + prices[i])
   }
-  return max
+  return Math.max(sell, 0)
 };
