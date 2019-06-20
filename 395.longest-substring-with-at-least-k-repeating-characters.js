@@ -50,34 +50,30 @@
  * @return {number}
  */
 var longestSubstring = function(s, k) {
-  // 如果s的长度还不如k
-  // 直接返回0
-  if (s.length < k) {
+  return longestSubstringCore(s, k, 0, s.length - 1)
+};
+
+function longestSubstringCore (s, k, start, end) {
+  if (start > end || (end - start + 1 < k)) {
     return 0
   }
-  let hash = {}
-  for (let i = 0; i < s.length; i++ ){
-    hash[s[i]] === undefined ? hash[s[i]] = 1 : hash[s[i]]++
+  let count = new Array(26).fill(0)
+  // 统计每个字母出现的次数
+  for (let i = start; i <= end; i++) {
+    let pos = s[i].charCodeAt() - 97
+    count[pos] += 1
   }
-  // 如果某个字符个数小于k
-  // 说明它一定不会出现在结果中
-  // 所以直接将其排除
-  // 查找该字符左边和右边的子串看看能否找出符合要求的
-  for (let i in hash) {
-    if (hash[i] < k) { // 如果一个字母出现次数小于k
-      let startIndex = s.indexOf(i)
-      let endIndex = startIndex + 1
-      // 避免出现连续不符合要求的字母比如aaaabbbbbcccc
-      while (s[endIndex] === i) {
-        endIndex += 1
-      }
-      let leftStr = s.substring(0, s.indexOf(i))
-      let rightStr = s.substring(endIndex, s.length)
-      // 将其去除并比较除去该字符后的左右两串的最长
-      return Math.max(longestSubstring(leftStr, k), longestSubstring(rightStr, k))
+
+  for (let i = 0; i < 26; i++) {
+    // 找到第一个次数大于0但是不足k的，将其左右进行二分查找
+    if (count[i] > 0 && count[i] < k) {
+      let pos = s.indexOf(String.fromCharCode(i + 97), start) // 从start开始的indexOf
+      return Math.max(
+        longestSubstringCore(s, k, pos + 1, end),
+        longestSubstringCore(s, k, start, pos - 1)
+      )
     }
   }
-  // 如果字符串里所有字符都符合要求
-  // 直接返回该字符串长度
-  return s.length
-};
+
+  return end - start + 1
+}
