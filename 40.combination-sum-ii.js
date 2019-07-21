@@ -60,33 +60,30 @@ var combinationSum2 = function(candidates, target) {
   }
   let results = []
   let path = []
-  let resultMap = new Map()
   candidates = candidates.sort((a, b) => a - b)
-  combinationCore(candidates, target, 0, path, results, resultMap)
+  combinationCore(candidates, target, 0, path, results)
   return results
 };
 
-function combinationCore (candidates, target, from, path, results, resultMap) {
+function combinationCore (candidates, target, start, path, results) {
   if (target === 0) {
-    let tempPath = path.slice().sort((a, b) => a - b)
-    if (!resultMap.get(tempPath.toString())) {
-      resultMap.set(tempPath.toString(), true)
-      return results.push(path.slice())
-    }
-    return
+    return results.push(path.slice())
   }
-  for (let i = from; i < candidates.length; i++) {
+  for (let i = start; i < candidates.length; i++) {
     if (candidates[i] > target) {
       return
+    }
+    // 1，1，2，3...，当有重复数字时，需要跳过
+    // 比如这里的1。当i===0时，会和i===1时情况重复。所以i===1时需要跳过
+    if (i !== start && candidates[i] === candidates[i - 1]) {
+      continue
     }
     target = target - candidates[i]
     if (target >= 0) {
       path.push(candidates[i])
-      combinationCore(candidates, target, i + 1, path, results, resultMap)
+      combinationCore(candidates, target, i + 1, path, results)
       path.pop()
     }
     target += candidates[i]
   }
 }
-
-console.log(combinationSum2([1,2], 4))
