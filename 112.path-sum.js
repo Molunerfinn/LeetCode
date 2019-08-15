@@ -45,48 +45,46 @@
  * @param {number} sum
  * @return {boolean}
  */
+// https://blog.csdn.net/MebiuW/article/details/52650071
 var hasPathSum = function(root, sum) {
+  return dfs(root, sum)
+};
+
+function dfs (root, sum) {
   if (root === null) {
     return false
   }
+  sum -= root.val
   if (root.left === null && root.right === null) {
-    return root.val === sum
+    return sum === 0
   }
-  let stack = [root]
-  let result = false
-  if (root.left) {
-    result = hasPathSumCore(root.left, sum, stack)
-  }
-  if (!result && root.right) {
-    result = hasPathSumCore(root.right, sum, stack)
-  }
-  return result
-};
-
-var hasPathSumCore = (root, sum, stack) => {
-  if (root.left === null && root.right === null) { // leaf node
-    let count = stack.reduce((a, b) => (a + b.val), 0) + root.val
-    if (count === sum) {
-      return true
-    } else {
-      return false
-    }
-  } else { // tree node
-    stack.push(root)
-    let result = false
-    if (root.left) {
-      result = hasPathSumCore(root.left, sum, stack)
-    }
-    if (!result && root.right) {
-      result = hasPathSumCore(root.right, sum, stack)
-    }
-    if (!result) {
-      stack.pop()
-      return false
-    }
-    return result
-  }
+  return dfs(root.left, sum) || dfs(root.right, sum)
 }
+
+// var hasPathSumCore = (root, sum, stack) => {
+//   if (root.left === null && root.right === null) { // leaf node
+//     let count = stack.reduce((a, b) => (a + b.val), 0) + root.val
+//     if (count === sum) {
+//       return true
+//     } else {
+//       return false
+//     }
+//   } else { // tree node
+//     stack.push(root)
+//     let result = false
+//     if (root.left) {
+//       result = hasPathSumCore(root.left, sum, stack)
+//     }
+//     if (!result && root.right) {
+//       result = hasPathSumCore(root.right, sum, stack)
+//     }
+//     if (!result) {
+//       stack.pop()
+//       return false
+//     }
+//     return result
+//   }
+// }
 // function TreeNode(val) {
 //   this.val = val;
 //   this.left = this.right = null;
