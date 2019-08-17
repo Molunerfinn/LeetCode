@@ -61,6 +61,9 @@
  * @param {TreeNode} root
  * @return {boolean}
  */
+// https://blog.csdn.net/happyaaaaaaaaaaa/article/details/51107445
+// 每一个节点计算左右子树深度
+// 如果左右子树深度差大于1返回false
 var isBalanced = function(root) {
   if (root === null) {
     return true
