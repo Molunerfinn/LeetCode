@@ -49,12 +49,12 @@
  */
 // https://blog.csdn.net/happyaaaaaaaaaaa/article/details/50829467
 var rob = function(nums) {
-  let prepreMax = 0
-  let curMax = 0
+  let currentMax = 0
+  let preMax= 0
   for (let i of nums) {
-    let temp = curMax
-    curMax = Math.max(i + prepreMax, curMax)
-    prepreMax = temp
+    tempMax = Math.max(i + preMax, currentMax)
+    preMax = currentMax
+    currentMax = tempMax
   }
-  return curMax
+  return currentMax
 };
