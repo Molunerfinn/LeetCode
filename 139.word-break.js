@@ -58,23 +58,30 @@
  * @return {boolean}
  */
 // https://blog.csdn.net/fuxuemingzhu/article/details/79368360
-var wordBreak = function(s, wordDict) {
+// var wordBreak = function(s, wordDict) {
+//   let wordSet = new Set(wordDict)
+//   let dp = new Array(s.length + 1).fill(false)
+//   dp[0] = true // dp[0] 代表空字符串的情况
+//   for (let i = 1; i <= s.length; i++) {
+//     for (let j = 0; j < i; j++) {
+//       if (dp[j] && wordSet.has(s.substring(j, i))) {
+//         dp[i] = true
+//       }
+//     }
+//   }
+//   return dp[s.length]
+// };
+
+/**
+ * 
+ * @param {string} s 
+ * @param {string[]} wordDict 
+ * @return {boolean}
+ */
+var wordBreak = function (s, wordDict) {
   let wordSet = new Set(wordDict)
   let dp = new Array(s.length + 1).fill(false)
-  dp[0] = true // dp[0] 代表空字符串的情况
-  for (let i = 1; i <= s.length; i++) {
-    for (let j = 0; j < i; j++) {
-      if (dp[j] && wordSet.has(s.substring(j, i))) {
-        dp[i] = true
-      }
-    }
-  }
-  return dp[s.length]
-};
-
-function canBreak (s, wordSet) {
-  let dp = new Array(s.length + 1).fill(false)
-  dp[0] = true // dp[0] 代表空字符串的情况
+  dp[0] = true
   for (let i = 1; i <= s.length; i++) {
     for (let j = 0; j < i; j++) {
       if (dp[j] && wordSet.has(s.substring(j, i))) {
@@ -85,15 +92,28 @@ function canBreak (s, wordSet) {
   return dp[s.length]
 }
 
-var wordBreak = function(s, wordDict) {
-  let wordSet = new Set(wordDict)
-  // let wordHash = {}
-  // for (let i of wordDict) {
-  //   wordHash[i] = true
-  // }
-  let res = []
-  if (canBreak(s, wordSet)) {
-    wordBreakCore(s, wordSet, wordDict, '', res)
-  }
-  return res
-};
+// function canBreak (s, wordSet) {
+//   let dp = new Array(s.length + 1).fill(false)
+//   dp[0] = true // dp[0] 代表空字符串的情况
+//   for (let i = 1; i <= s.length; i++) {
+//     for (let j = 0; j < i; j++) {
+//       if (dp[j] && wordSet.has(s.substring(j, i))) {
+//         dp[i] = true
+//       }
+//     }
+//   }
+//   return dp[s.length]
+// }
+
+// var wordBreak = function(s, wordDict) {
+//   let wordSet = new Set(wordDict)
+//   // let wordHash = {}
+//   // for (let i of wordDict) {
+//   //   wordHash[i] = true
+//   // }
+//   let res = []
+//   if (canBreak(s, wordSet)) {
+//     wordBreakCore(s, wordSet, wordDict, '', res)
+//   }
+//   return res
+// };
