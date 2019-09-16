@@ -39,22 +39,44 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
-var reverseList = function(head) {
-  if (head === null) {
-    return null
-  }
-  if (head.next === null) {
+// var reverseList = function(head) {
+//   if (head === null) {
+//     return null
+//   }
+//   if (head.next === null) {
+//     return head
+//   }
+
+//   let p = head.next
+//   let r = reverseList(p)
+//   p.next = head
+//   head.next = null
+//   return r
+// };
+
+var reverseList = function (head) {
+  if (head === null || head.next === null) {
     return head
   }
+  const tempHead = new ListNode(null)
+  tempHead.next = head
 
-  let p = head.next
-  let r = reverseList(p)
-  p.next = head
+  let pCurrent = head
+  let pNext = head.next
   head.next = null
-  return r
-};
 
-// const ListNode = require('./ListNode')
+  while (pNext !== null) {
+    let pN = pNext.next
+    tempHead.next = pNext
+    pNext.next = pCurrent
+    pCurrent = pNext
+    pNext = pN
+  }
+
+  return tempHead.next
+}
+
+// const ListNode = require('./utils/ListNode')
 
 // let a = new ListNode(1)
 // a.next = new ListNode(2)
